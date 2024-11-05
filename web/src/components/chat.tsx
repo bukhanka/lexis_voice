@@ -23,7 +23,6 @@ export function Chat() {
   const { agent } = useAgent();
   const { disconnect } = useConnection();
   const [isEditingInstructions, setIsEditingInstructions] = useState(false);
-
   const [hasSeenAgent, setHasSeenAgent] = useState(false);
 
   useEffect(() => {
@@ -53,7 +52,6 @@ export function Chat() {
       !agent &&
       hasSeenAgent
     ) {
-      // Agent disappeared while connected, wait 5s before disconnecting
       disconnectTimer = setTimeout(() => {
         if (!agent) {
           disconnect();
@@ -95,20 +93,6 @@ export function Chat() {
     </div>
   );
 
-  const renderConnectionControl = () => (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={isChatRunning ? "session-controls" : "connect-button"}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 10 }}
-        transition={{ type: "tween", duration: 0.15, ease: "easeInOut" }}
-      >
-        {isChatRunning ? <SessionControls /> : <ConnectButton />}
-      </motion.div>
-    </AnimatePresence>
-  );
-
   return (
     <div className="flex flex-col h-full overflow-hidden p-2 lg:p-4">
       <ChatControls
@@ -120,14 +104,7 @@ export function Chat() {
         <div className="w-full h-full flex flex-col">
           <div className="flex items-center justify-center w-full">
             <div className="lg:hidden w-full">
-              {isChatRunning && !isEditingInstructions ? (
-                renderVisualizer()
-              ) : (
-                <Instructions />
-              )}
-            </div>
-            <div className="hidden lg:block w-full">
-              <Instructions />
+              {isChatRunning && !isEditingInstructions && renderVisualizer()}
             </div>
           </div>
           <div className="grow h-full flex items-center justify-center">
@@ -138,7 +115,17 @@ export function Chat() {
         </div>
 
         <div className="md:mt-2 md:pt-2 md:mb-12 max-md:fixed max-md:bottom-12 max-md:left-1/2 max-md:-translate-x-1/2 max-md:z-50 xl:fixed xl:bottom-12 xl:left-1/2 xl:-translate-x-1/2 xl:z-50">
-          {renderConnectionControl()}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={isChatRunning ? "session-controls" : "connect-button"}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ type: "tween", duration: 0.15, ease: "easeInOut" }}
+            >
+              {isChatRunning ? <SessionControls /> : <ConnectButton />}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </div>

@@ -61,7 +61,9 @@ export function InstructionsEditor({
       onFocus={onFocus}
       onBlur={handleBlur}
       placeholder="Enter system instructions"
-      className="w-full h-full rounded outline-none font-mono text-sm"
+      className="w-full h-full rounded-md p-4 outline-none font-mono text-sm bg-gray-50 border resize-none
+        focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+      style={{ minHeight: "180px" }}
     />
   );
 }

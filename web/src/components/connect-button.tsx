@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { useConnection } from "@/hooks/use-connection";
-import { Loader2, Mic } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { usePlaygroundState } from "@/hooks/use-playground-state";
 import { AuthDialog } from "./auth";
 
@@ -54,18 +54,16 @@ export function ConnectButton() {
       <Button
         onClick={handleConnectionToggle}
         disabled={connecting || shouldConnect}
-        className="text-sm font-semibold bg-oai-green"
+        className="mt-4 bg-purple-600 hover:bg-purple-700 text-white"
+        size="lg"
       >
         {connecting || shouldConnect ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Connecting
+            Подключение...
           </>
         ) : (
-          <>
-            <Mic className="mr-2 h-4 w-4" />
-            Connect
-          </>
+          'Начать диалог'
         )}
       </Button>
       <AuthDialog
